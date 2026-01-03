@@ -4,14 +4,46 @@ defmodule QuestoexWeb.PageLive do
   def render(assigns) do
     ~H"""
     <Layouts.app {assigns}>
-      <.questao_card />
-      <div class="mt-16">
-        <div class="flex flex-row gap-4">
-          <.button>Voltar</.button>
-          <.button>Avançar</.button>
-        </div>
+      <.search_section />
+
+      <.questao_card :for={_ <- 1..10} />
+
+      <div class="flex justify-center mt-8 join">
+        <button class="join-item btn">1</button>
+        <button class="join-item btn btn-active">2</button>
+        <button class="join-item btn">3</button>
+        <button class="join-item btn">4</button>
+        <button class="join-item btn">5</button>
       </div>
     </Layouts.app>
+    """
+  end
+
+  def search_section(assigns) do
+    ~H"""
+    <div class="flex flex-row gap-4 mb-18">
+      <form phx-submit="search">
+        <div class="flex flex-row gap-2 mb-4">
+          <.input type="text" value="" name="query" placeholder="Buscar questão..." />
+          <.input type="text" value="" name="query" placeholder="Buscar questão..." />
+          <.input type="text" value="" name="query" placeholder="Buscar questão..." />
+          <.input
+            type="select"
+            value=""
+            name="category"
+            options={["Categoria 1", "Categoria 2"]}
+            placeholder="Categoria"
+          />
+        </div>
+        <div class="flex flex-row gap-2 mb-4">
+          <.input type="checkbox" value="" name="only_correct" label="Apenas corretas" />
+          <.input type="checkbox" value="" name="only_correct" label="Apenas corretas" />
+          <.input type="checkbox" value="" name="only_correct" label="Apenas corretas" />
+          <.input type="checkbox" value="" name="only_correct" label="Apenas corretas" />
+        </div>
+        <button class="btn btn-block">Filtrar</button>
+      </form>
+    </div>
     """
   end
 
@@ -26,15 +58,52 @@ defmodule QuestoexWeb.PageLive do
         lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
       </div>
       <div>
-        <ul class="list-disc list-inside mt-4 space-y-2">
-          <li>Opção A</li>
-          <li>Opção B</li>
-          <li>Opção C</li>
-          <li>Opção D</li>
-          <li>Opção E</li>
+        <ul class="list-inside mt-4 space-y-2">
+          <.alternativa_option content="sim sim" correct={false} alternative="A" />
+          <.alternativa_option content="não não" correct={true} alternative="B" />
+          <.alternativa_option content="talvez não talvez não" correct={false} alternative="C" />
+          <.alternativa_option content="maybe sim maybe sim" correct={false} alternative="D" />
+          <.alternativa_option content="Alternativa E Alternativa E" correct={false} alternative="E" />
         </ul>
       </div>
+      <div class="divider"></div>
     </div>
+    """
+  end
+
+  attr :content, :string
+  attr :alternative, :string
+  attr :correct, :boolean, default: false
+  attr :submitted?, :boolean, default: false
+
+  def alternativa_option(assigns) do
+    ~H"""
+    <li>
+      <button
+        type="button"
+        class={[
+          "btn btn-neutral btn-outline w-full justify-start text-left normal-case",
+          "gap-4 p-1 h-auto min-h-0",
+          @submitted? && @correct && "btn-success",
+          @submitted? && !@correct && "opacity-60 cursor-not-allowed"
+        ]}
+      >
+        
+    <!-- Letra -->
+        <div class={[
+          "w-8 h-8 flex items-center justify-center font-bold shrink-0",
+          @submitted? && @correct && "bg-success text-success-content",
+          !@submitted? && "text-base-content"
+        ]}>
+          {@alternative}
+        </div>
+        
+    <!-- Conteúdo -->
+        <div class="flex-1 leading-relaxed">
+          {@content}
+        </div>
+      </button>
+    </li>
     """
   end
 end
