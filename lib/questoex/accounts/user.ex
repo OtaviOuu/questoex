@@ -9,7 +9,7 @@ defmodule Questoex.Accounts.User do
     field :confirmed_at, :utc_datetime
     field :authenticated_at, :utc_datetime, virtual: true
     field :is_oauth_user, :boolean, default: false
-
+    field :is_admin, :boolean, default: false
     timestamps(type: :utc_datetime)
   end
 
