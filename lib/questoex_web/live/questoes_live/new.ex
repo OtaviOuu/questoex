@@ -81,8 +81,6 @@ defmodule QuestoexWeb.QuestoesLive.New do
   end
 
   def handle_event("save", %{"form" => attrs}, socket) do
-    IO.inspect(attrs, label: "Attrs")
-
     case Questoes.create_questao(attrs) do
       {:ok, _questao} ->
         {:noreply,

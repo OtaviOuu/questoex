@@ -37,11 +37,29 @@ defmodule QuestoexWeb.Layouts do
     ~H"""
     <div class="navbar bg-base-100 shadow-sm">
       <div class="flex-1">
-        <ul class="menu menu-horizontal px-1  md:flex">
+        <ul class="menu menu-horizontal px-1  md:flex items-center gap-4 hidden">
           <li><.link navigate="/" class="btn btn-ghost text-xl">daisyUI</.link></li>
           <li><.link navigate="/">Home</.link></li>
           <li><.link navigate="/about">About</.link></li>
           <li><.link navigate="/admin">Admin</.link></li>
+          <%= if @current_scope do %>
+            <li>
+              {@current_scope.user.email}
+            </li>
+            <li>
+              <.link href={~p"/users/settings"}>Settings</.link>
+            </li>
+            <li>
+              <.link href={~p"/users/log-out"} method="delete">Log out</.link>
+            </li>
+          <% else %>
+            <li>
+              <.link href={~p"/users/register"}>Register</.link>
+            </li>
+            <li>
+              <.google_auth_button />
+            </li>
+          <% end %>
         </ul>
       </div>
       <div class="flex gap-2">
