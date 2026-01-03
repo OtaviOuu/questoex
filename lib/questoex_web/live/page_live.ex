@@ -82,7 +82,7 @@ defmodule QuestoexWeb.PageLive do
       <button
         type="button"
         class={[
-          "btn btn-neutral btn-outline w-full justify-start text-left normal-case",
+          "btn btn-dash w-full justify-start text-left normal-case",
           "gap-4 p-1 h-auto min-h-0",
           @submitted? && @correct && "btn-success",
           @submitted? && !@correct && "opacity-60 cursor-not-allowed"
@@ -91,7 +91,7 @@ defmodule QuestoexWeb.PageLive do
         
     <!-- Letra -->
         <div class={[
-          "w-8 h-8 flex items-center justify-center font-bold shrink-0",
+          "w-8 h-8 flex items-center justify-center shrink-0",
           @submitted? && @correct && "bg-success text-success-content",
           !@submitted? && "text-base-content"
         ]}>
