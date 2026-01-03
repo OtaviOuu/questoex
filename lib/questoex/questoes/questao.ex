@@ -2,7 +2,16 @@ defmodule Questoex.Questoes.Questao do
   use Ecto.Schema
   import Ecto.Changeset
   alias Questoex.Questoes
-  @fields [:enunciado, :area_conhecimento]
+
+  @fields [
+    :enunciado,
+    :area_conhecimento,
+    :alternativa_a,
+    :alternativa_b,
+    :alternativa_c,
+    :alternativa_d,
+    :alternativa_e
+  ]
   @primary_key {:id, :binary_id, autogenerate: true}
 
   schema "questoes" do
@@ -15,7 +24,7 @@ defmodule Questoex.Questoes.Questao do
     field :alternativa_d, :string
     field :alternativa_e, :string
 
-    belongs_to :prova, Questoes.Prova, type: :binary_id
+    # belongs_to :prova, Questoes.Prova, type: :binary_id
 
     timestamps()
   end
@@ -24,5 +33,6 @@ defmodule Questoex.Questoes.Questao do
     %__MODULE__{}
     |> cast(attrs, @fields)
     |> validate_required(@fields)
+    |> validate_inclusion(:area_conhecimento, [:matematica, :fisica])
   end
 end

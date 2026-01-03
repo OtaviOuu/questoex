@@ -31,8 +31,8 @@ defmodule QuestoexWeb.QuestoesLive.New do
               field={@form[:area_conhecimento]}
               label="Área de Conhecimento"
               options={[
-                matematica: "Matemática",
-                fisica: "Física"
+                Matemática: :matematica,
+                Física: :fisica
               ]}
             />
             <.input
@@ -69,14 +69,30 @@ defmodule QuestoexWeb.QuestoesLive.New do
   end
 
   def handle_event("validate", %{"form" => params}, socket) do
-    questao_chageset = Questoes.change_questao(params)
-    form = to_form(questao_chageset, as: :form)
-    previw = params["enunciado"]
-    {:noreply, assign(socket, form: form, preview: previw)}
+    changeset =
+      params
+      |> Questoes.change_questao()
+      |> Map.put(:action, :validate)
+
+    preview = Map.get(params, "enunciado", "")
+
+    form = to_form(changeset, as: :form, action: :validate)
+    {:noreply, assign(socket, form: form, preview: preview)}
   end
 
-  def handle_event("save", %{"form" => params}, socket) do
-    IO.inspect(params, label: "Form Params")
-    {:noreply, socket}
+  def handle_event("save", %{"form" => attrs}, socket) do
+    IO.inspect(attrs, label: "Attrs")
+
+    case Questoes.create_questao(attrs) do
+      {:ok, _questao} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Questão criada com sucesso!")
+         |> push_navigate(to: ~p"/admin/questoes/ingestao")}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        form = to_form(changeset, as: :form, action: :validate)
+        {:noreply, assign(socket, form: form)}
+    end
   end
 end
