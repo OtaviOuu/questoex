@@ -36,21 +36,37 @@ defmodule QuestoexWeb.Layouts do
   def app(assigns) do
     ~H"""
     <div class="navbar bg-base-100 shadow-sm">
-      <div class="flex-1">
+      <div class="flex-1 navbar-start">
         <ul class="menu menu-horizontal px-1  md:flex items-center gap-4 hidden">
           <li><.link navigate="/" class="btn btn-ghost text-xl">daisyUI</.link></li>
-          <li><.link navigate="/">Home</.link></li>
-          <li><.link navigate="/about">About</.link></li>
-          <li><.link navigate="/admin">Admin</.link></li>
+
+          <%= if @current_scope do %>
+          <% else %>
+          <% end %>
+        </ul>
+      </div>
+      <div class="flex gap-2 navbar-end">
+        <ul class="menu menu-horizontal px-1  md:flex items-center gap-4 hidden">
           <%= if @current_scope do %>
             <li>
               {@current_scope.user.email}
             </li>
             <li>
-              <.link href={~p"/users/settings"}>Settings</.link>
+              <.link href={~p"/users/log-out"} method="delete">Log out</.link>
             </li>
             <li>
-              <.link href={~p"/users/log-out"} method="delete">Log out</.link>
+              <.link
+                navigate={~p"/users/settings"}
+                role="button"
+                class="btn btn-ghost btn-circle avatar"
+              >
+                <div class="w-10 rounded-full">
+                  <img
+                    alt="Tailwind CSS Navbar component"
+                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                  />
+                </div>
+              </.link>
             </li>
           <% else %>
             <li>
@@ -61,19 +77,7 @@ defmodule QuestoexWeb.Layouts do
             </li>
           <% end %>
         </ul>
-      </div>
-      <div class="flex gap-2">
-        <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
-        <div class="dropdown dropdown-end">
-          <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-            <div class="w-10 rounded-full">
-              <img
-                alt="Tailwind CSS Navbar component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-              />
-            </div>
-          </div>
-        </div>
+        <div class="dropdown dropdown-end"></div>
       </div>
     </div>
 

@@ -87,6 +87,12 @@ defmodule QuestoexWeb.UserLive.Login do
             Log in only this time
           </.button>
         </.form>
+
+        <div class="divider">or</div>
+
+        <div class="text-center">
+          <.google_auth_button />
+        </div>
       </div>
     </Layouts.app>
     """

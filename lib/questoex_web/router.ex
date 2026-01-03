@@ -24,15 +24,18 @@ defmodule QuestoexWeb.Router do
     get "/:provider/callback", OauthController, :callback
   end
 
-  scope "/", QuestoexWeb do
-    pipe_through :browser
+  live_session :with_scope,
+    on_mount: [{QuestoexWeb.UserAuth, :mount_current_scope}] do
+    scope "/", QuestoexWeb do
+      pipe_through :browser
 
-    live "/", PageLive, :index
+      live "/", PageLive, :index
 
-    scope "/admin" do
-      scope "/questoes" do
-        live "/criar", QuestoesLive.New, :new
-        live "/ingestao", IngestaoLive.Index, :index
+      scope "/admin" do
+        scope "/questoes" do
+          live "/criar", QuestoesLive.New, :new
+          live "/ingestao", IngestaoLive.Index, :index
+        end
       end
     end
   end
