@@ -11,7 +11,7 @@ defmodule QuestoexWeb.IngestaoLive.Index do
 
   def prova_files_list(assigns) do
     ~H"""
-    <div class="flex flex-col  gap-4">
+    <div class="flex flex-col gap-4">
       <ul>
         <li :for={_ <- 1..100}>Prova pdf</li>
       </ul>

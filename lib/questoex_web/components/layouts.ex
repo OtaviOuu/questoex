@@ -39,9 +39,9 @@ defmodule QuestoexWeb.Layouts do
       <div class="flex-1">
         <ul class="menu menu-horizontal px-1  md:flex">
           <li><.link navigate="/" class="btn btn-ghost text-xl">daisyUI</.link></li>
-
           <li><.link navigate="/">Home</.link></li>
           <li><.link navigate="/about">About</.link></li>
+          <li><.link navigate="/admin">Admin</.link></li>
         </ul>
       </div>
       <div class="flex gap-2">

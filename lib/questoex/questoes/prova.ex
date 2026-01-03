@@ -1,6 +1,7 @@
-defmodule Questoes.Prova do
+defmodule Questoex.Questoes.Prova do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Questoex.Questoes.{Questao}
 
   @fields [:titulo, :data_aplicacao]
 
