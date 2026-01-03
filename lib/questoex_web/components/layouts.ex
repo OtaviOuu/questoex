@@ -37,7 +37,12 @@ defmodule QuestoexWeb.Layouts do
     ~H"""
     <div class="navbar bg-base-100 shadow-sm">
       <div class="flex-1">
-        <a class="btn btn-ghost text-xl">daisyUI</a>
+        <ul class="menu menu-horizontal px-1  md:flex">
+          <li><.link navigate="/" class="btn btn-ghost text-xl">daisyUI</.link></li>
+
+          <li><.link navigate="/">Home</.link></li>
+          <li><.link navigate="/about">About</.link></li>
+        </ul>
       </div>
       <div class="flex gap-2">
         <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
@@ -50,18 +55,6 @@ defmodule QuestoexWeb.Layouts do
               />
             </div>
           </div>
-          <ul
-            tabindex="-1"
-            class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
-          >
-            <li>
-              <a class="justify-between">
-                Profile <span class="badge">New</span>
-              </a>
-            </li>
-            <li><a>Settings</a></li>
-            <li><a>Logout</a></li>
-          </ul>
         </div>
       </div>
     </div>

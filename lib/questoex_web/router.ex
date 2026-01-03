@@ -18,6 +18,13 @@ defmodule QuestoexWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
+
+    scope "/admin" do
+      scope "/questoes" do
+        live "/criar", QuestoesLive.New, :new
+        live "/ingestao", IngestaoLive.Index, :index
+      end
+    end
   end
 
   # Other scopes may use custom stacks.

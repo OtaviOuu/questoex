@@ -7,6 +7,16 @@
 # General application configuration
 import Config
 
+config :questoex, QuestoexWeb.Endpoint,
+  watchers: [
+    esbuild:
+      {Esbuild, :install_and_run,
+       [
+         :questoex,
+         ~w(--external:ckeditor5 --external:ckeditor5-premium-features)
+       ]}
+  ]
+
 config :questoex,
   ecto_repos: [Questoex.Repo],
   generators: [timestamp_type: :utc_datetime]
