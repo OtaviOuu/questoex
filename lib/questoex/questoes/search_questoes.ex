@@ -10,16 +10,7 @@ defmodule Questoex.Questoes.SearchQuestoes do
     |> Repo.all()
   end
 
-  defp build_search_query(%SearchQuestoesInput{} = filter_attrs) do
-    filter_attrs.from(q in Questao)
-    |> maybe_filter_by_palavra_chave(filter_attrs.palavra_chave)
-    |> maybe_filter_by_banca(filter_attrs.banca)
-    |> maybe_filter_by_area_conhecimento(filter_attrs.area_conhecimento)
-  end
-
-  defp maybe_filter_by_palavra_chave(query, nil), do: query
-
-  defp maybe_filter_by_palavra_chave(query, palavra_chave) do
-    from(q in query, where: ilike(q.enunciado, ^"%#{palavra_chave}%"))
+  defp build_search_query(%SearchQuestoesInput{} = _filter_attrs) do
+    Questao
   end
 end
