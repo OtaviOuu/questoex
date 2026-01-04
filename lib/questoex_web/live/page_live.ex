@@ -1,12 +1,18 @@
 defmodule QuestoexWeb.PageLive do
   use QuestoexWeb, :live_view
 
+  alias Questoex.Questoes
+
+  def mount(_params, _session, socket) do
+    {:ok, assign(socket, :questoes, [])}
+  end
+
   def render(assigns) do
     ~H"""
     <Layouts.app {assigns}>
       <.search_section />
 
-      <.questao_card :for={_ <- 1..10} />
+      <.questao_card :for={questao <- @questoes} questao={questao} />
 
       <div class="flex justify-center mt-8 join">
         <button class="join-item btn">1</button>
@@ -55,26 +61,36 @@ defmodule QuestoexWeb.PageLive do
         <div>Banca: Fuvest 2023</div>
       </div>
       <div class="mt-6 space-y-6">
-        lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        {@questao.enunciado |> raw()}
       </div>
       <div>
         <ul class="list-inside mt-4 space-y-2">
-          <.alternativa_option content="sim sim" correct={false} alternative="A" />
-          <.alternativa_option content="não não" correct={true} alternative="B" />
-          <.alternativa_option content="talvez não talvez não" correct={false} alternative="C" />
-          <.alternativa_option content="maybe sim maybe sim" correct={false} alternative="D" />
-          <.alternativa_option content="Alternativa E Alternativa E" correct={false} alternative="E" />
+          <.alternativa_option content="sim sim" correct={false} alternative="A" submitted?={false} />
+          <.alternativa_option content="não não" correct={true} alternative="B" submitted?={false} />
+          <.alternativa_option
+            content="talvez não talvez não"
+            correct={false}
+            alternative="C"
+            submitted?={false}
+          />
+          <.alternativa_option
+            content="maybe sim maybe sim"
+            correct={false}
+            alternative="D"
+            submitted?={false}
+          />
+          <.alternativa_option
+            content="Alternativa E Alternativa E"
+            correct={false}
+            alternative="E"
+            submitted?={false}
+          />
         </ul>
       </div>
       <div class="divider"></div>
     </div>
     """
   end
-
-  attr :content, :string
-  attr :alternative, :string
-  attr :correct, :boolean, default: false
-  attr :submitted?, :boolean, default: false
 
   def alternativa_option(assigns) do
     ~H"""
@@ -105,5 +121,17 @@ defmodule QuestoexWeb.PageLive do
       </button>
     </li>
     """
+  end
+
+  def handle_event("search", _params, socket) do
+    scope = socket.assigns.current_scope
+
+    questoes =
+      Questoes.search_questoes(
+        %{palavra_chave: "oi", banca: "fuvest", area_conhecimento: "fisica"},
+        scope
+      )
+
+    {:noreply, assign(socket, :questoes, questoes)}
   end
 end

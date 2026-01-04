@@ -4,10 +4,10 @@ defmodule Questoex.Questoes do
   alias Questoex.Repo
   @behaviour Bodyguard.Policy
 
-  def authorize(:create_questao, %{user: %{is_admin: true}}), do: :ok
-  def authorize(:create_questao, _), do: {:error, :unauthorized}
+  def authorize(:create_questao, %{user: %{is_admin: true}}, _), do: :ok
+  def authorize(:create_questao, _, _), do: {:error, :unauthorized}
 
-  def authorize(:search_questoes, %{user: _}), do: :ok
+  def authorize(:search_questoes, %{user: _}, _), do: :ok
 
   def change_questao(attrs) do
     attrs
