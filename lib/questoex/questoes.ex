@@ -8,6 +8,7 @@ defmodule Questoex.Questoes do
   def authorize(:create_questao, _, _), do: {:error, :unauthorized}
 
   def authorize(:search_questoes, %{user: _}, _), do: :ok
+  def authorize(:search_questoes, _, _), do: {:error, :unauthorized}
 
   def change_questao(attrs) do
     attrs

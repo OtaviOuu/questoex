@@ -126,12 +126,15 @@ defmodule QuestoexWeb.PageLive do
   def handle_event("search", _params, socket) do
     scope = socket.assigns.current_scope
 
-    questoes =
-      Questoes.search_questoes(
-        %{palavra_chave: "oi", banca: "fuvest", area_conhecimento: "fisica"},
-        scope
-      )
+    case Questoes.search_questoes(
+           %{palavra_chave: "oi", banca: "fuvest", area_conhecimento: "fisica"},
+           scope
+         ) do
+      {:error, msg} ->
+        {:noreply, put_flash(socket, :error, "Erro ao buscar questões: #{msg}")}
 
-    {:noreply, assign(socket, :questoes, questoes)}
+      questoes ->
+        {:noreply, assign(socket, :questoes, questoes)}
+    end
   end
 end
